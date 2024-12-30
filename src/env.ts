@@ -16,7 +16,7 @@ const DEFAULT_LEVELS = [
 const EnvSchema = z.object({
     NODE_ENV: z.enum(["development", "production"]),
     LOG_LEVEL: z.enum(DEFAULT_LEVELS),
-    PORT: z.coerce.number().default(999),
+    PORT: z.coerce.number().default(9999),
 });
 // eslint-disable-next-line node/no-process-env
 const parsedData = EnvSchema.safeParse(process.env);
