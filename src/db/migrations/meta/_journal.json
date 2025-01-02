@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1735836439122,
+      "tag": "0000_mean_mother_askani",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1735836737516,
+      "tag": "0001_adorable_marvel_zombies",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1735837264954,
+      "tag": "0002_dizzy_the_twelve",
+      "breakpoints": true
+    }
+  ]
+}
