@@ -1,5 +1,6 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
+import { NOT_FOUND as NOT_FOUND_MESSAGE } from "stoker/http-status-phrases";
 import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema } from "stoker/openapi/schemas";
 
@@ -60,8 +61,16 @@ export const getOne = createRoute({
             selectTasksSchema
             , "The selected task",
         ),
+        [HttpStatusCodes.NOT_FOUND]: jsonContent(
+            z.object({ message: z.string().openapi({ example: `${NOT_FOUND_MESSAGE} - /api/tasks/123` }) }),
+            "If it can't find the id",
+        ),
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+            createErrorSchema(ParamSchema),
+            "Invalid id error",
+        ),
     },
 });
-export type GetOne = typeof getOne;
+export type GetOneRoute = typeof getOne;
 export type CreateRoute = typeof create;
 export type ListRoute = typeof list;
