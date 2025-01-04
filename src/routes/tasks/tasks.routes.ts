@@ -1,8 +1,8 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
-import { NOT_FOUND as NOT_FOUND_MESSAGE } from "stoker/http-status-phrases";
+import * as HttpStatusMessage from "stoker/http-status-phrases";
 import { jsonContent, jsonContentOneOf, jsonContentRequired } from "stoker/openapi/helpers";
-import { createErrorSchema } from "stoker/openapi/schemas";
+import { createErrorSchema, createMessageObjectSchema } from "stoker/openapi/schemas";
 
 import { insertTasksSchema, patchTasksSchema, selectTasksSchema } from "@/db/schema";
 import { notFountSchema } from "@/lib/constants";
@@ -73,6 +73,25 @@ export const patch = createRoute({
         ),
     },
 });
+export const remove = createRoute({
+    method: "delete",
+    path: "/tasks/{id}",
+    request: {
+        params: ParamSchema,
+    },
+    tags,
+    responses: {
+        [HttpStatusCodes.NO_CONTENT]: { description: "Task Deleted" },
+        [HttpStatusCodes.NOT_FOUND]: jsonContent(
+            notFountSchema,
+            "Task not found",
+        ),
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+            createErrorSchema(ParamSchema),
+            "Invalid id error",
+        ),
+    },
+});
 
 export const getOne = createRoute({
     method: "get",
@@ -100,3 +119,4 @@ export type PatchRoute = typeof patch;
 export type GetOneRoute = typeof getOne;
 export type CreateRoute = typeof create;
 export type ListRoute = typeof list;
+export type DeleteRoute = typeof remove;
