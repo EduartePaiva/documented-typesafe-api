@@ -15,9 +15,9 @@ export const insertTasksSchema = createInsertSchema(
     {
         name: schema => schema.min(2).max(500),
     },
-)
-    .omit({
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-    });
+).omit({
+    id: true,
+    createdAt: true,
+    updatedAt: true,
+});
+export const patchTasksSchema = insertTasksSchema.partial()

@@ -7,7 +7,7 @@ import type { AppRouteHandler } from "@/lib/types";
 import db from "@/db";
 import { tasks } from "@/db/schema";
 
-import type { CreateRoute, GetOneRoute, ListRoute } from "./tasks.routes";
+import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute } from "./tasks.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
     const tasks = await db.query.tasks.findMany();
@@ -31,7 +31,23 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 
     if (task.length === 0) {
         return c.json({
-            message: `${NOT_FOUND_MESSAGE} - ${c.req.path}`,
+            message: NOT_FOUND_MESSAGE,
+        }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    return c.json(task[0], HttpStatusCodes.OK);
+};
+
+export const patch: AppRouteHandler<PatchRoute> = async (c) => {
+    const task = await db
+        .update(tasks)
+        .set(c.req.valid("json"))
+        .where(eq(tasks.id, c.req.valid("param").id))
+        .returning();
+
+    if (task.length === 0) {
+        return c.json({
+            message: NOT_FOUND_MESSAGE,
         }, HttpStatusCodes.NOT_FOUND);
     }
 
