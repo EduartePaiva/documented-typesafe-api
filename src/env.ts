@@ -1,8 +1,15 @@
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
+import path from "node:path";
 import { z, ZodError } from "zod";
 
-expand(config());
+expand(config({
+    path: path.resolve(
+        process.cwd(),
+        // eslint-disable-next-line node/no-process-env
+        process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+    ),
+}));
 
 const DEFAULT_LEVELS = [
     "trace",
@@ -11,10 +18,11 @@ const DEFAULT_LEVELS = [
     "warn",
     "error",
     "fatal",
+    "silent",
 ] as const;
 
 const EnvSchema = z.object({
-    NODE_ENV: z.enum(["development", "production"]),
+    NODE_ENV: z.enum(["development", "production", "test"]),
     LOG_LEVEL: z.enum(DEFAULT_LEVELS),
     PORT: z.coerce.number().default(9999),
     DATABASE_URL: z.string().url(),
