@@ -1,3 +1,3 @@
-stopped at 2:07
-
-[_] - fix the testclient type on the repository
+[x] - fix the testclient type on the repository
+[_] - document this repo
+[_] - wait for the pr

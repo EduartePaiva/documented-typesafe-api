@@ -25,8 +25,6 @@ function createApp() {
 
 export default createApp;
 
-export function createTestApp<R extends Schema>(router: OpenAPIHono<AppBindings, R>): OpenAPIHono<AppBindings, R> {
-    const testApp = createApp();
-    testApp.route("/", router);
-    return testApp;
+export function createTestApp<S extends Schema>(router: AppOpenAPI<S>) {
+    return createApp().route("/", router);
 }

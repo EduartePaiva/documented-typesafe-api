@@ -9,7 +9,7 @@ const app = createApp();
 const routes = [
     index,
     tasks,
-];
+] as const;
 configureOpenAPI(app);
 routes.forEach(route => app.route("/", route));
 
@@ -22,5 +22,7 @@ app.get("/error", (c) => {
     c.var.logger.debug("only visible when debug is on");
     throw new Error("Oh no!");
 });
+
+export type AppType = typeof routes[number];
 
 export default app;

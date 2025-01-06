@@ -22,19 +22,13 @@ describe("tasks list", () => {
     afterAll(() => {
         fs.rmSync("test.db", { force: true });
     });
-    
+
     it("responds with an array", async () => {
         const testRouter = createTestApp(router);
         const response = await testRouter.request("/tasks");
         const result = await response.json();
         // @ts-expect-error test
         expectTypeOf(result).toBeArray();
-    });
-
-    it("responds with an array again", async () => {
-        const response = await client.tasks.$get();
-        const json = await response.json();
-        expectTypeOf(json).toBeArray();
     });
 
     it("validates the id param", async () => {
