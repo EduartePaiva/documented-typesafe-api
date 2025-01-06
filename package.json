@@ -6,7 +6,7 @@
         "dev": "tsx watch src/index.ts",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
-        "test": "LOG_LEVEL=silent vitest"
+        "test": "vitest"
     },
     "dependencies": {
         "@asteasolutions/zod-to-openapi": "^7.3.0",
